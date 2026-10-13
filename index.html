@@ -787,15 +787,22 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--muted);f
     e.preventDefault();
     var btn = cf.querySelector('button[type=submit]'); btn.disabled = true;
     cs.className = 'cform-status'; cs.textContent = 'Odesílám…';
-    var data = {}; new FormData(cf).forEach(function(v, k){ data[k] = v; });
-    if (data._honey) { btn.disabled = false; return; }
-    data._replyto = data.email;
-    fetch('https://formsubmit.co/ajax/booking@vibeevents.cz', {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(data)})
-      .then(function(r){ return r.json().then(function(j){ if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || r.status); }); })
-      .then(function(){
-        cf.reset(); cs.className = 'cform-status ok'; cs.textContent = 'Děkujeme! Zprávu jsme přijali a brzy se vám ozveme.'; })
-      .catch(function(){ cs.className = 'cform-status err'; cs.innerHTML = 'Zprávu se nepodařilo odeslat. Napište nám prosím na <a href="mailto:info@vibeevents.cz">info@vibeevents.cz</a>.'; })
-      .finally(function(){ btn.disabled = false; });
+    var fd = new FormData(cf);
+    if (fd.get('_honey')) { btn.disabled = false; cs.textContent = ''; return; }
+    fd.set('_replyto', fd.get('email') || '');
+    // jednoduchý požadavek (bez CORS preflightu) + časový limit, aby odesílání nikdy nezamrzlo
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 15000);
+    function fail(msg){ cs.className = 'cform-status err'; cs.innerHTML = msg + ' Napište nám prosím přímo na <a href="mailto:booking@vibeevents.cz">booking@vibeevents.cz</a>.'; }
+    fetch('https://formsubmit.co/ajax/booking@vibeevents.cz', {method:'POST', headers:{'Accept':'application/json'}, body:new URLSearchParams(fd), signal: ctrl ? ctrl.signal : undefined})
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if (String(j.success) === 'true') { cf.reset(); cs.className = 'cform-status ok'; cs.textContent = 'Děkujeme! Zprávu jsme přijali a brzy se vám ozveme.'; }
+        else if (/activat/i.test(j.message || '')) fail('Formulář se právě aktivuje.');
+        else fail('Zprávu se nepodařilo odeslat.');
+      })
+      .catch(function(err){ fail(err && err.name === 'AbortError' ? 'Odeslání trvá příliš dlouho.' : 'Zprávu se nepodařilo odeslat.'); })
+      .finally(function(){ clearTimeout(timer); btn.disabled = false; });
   });
 
   document.getElementById('year').textContent = new Date().getFullYear();
