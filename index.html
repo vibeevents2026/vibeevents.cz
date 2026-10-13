@@ -569,10 +569,12 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--muted);f
         <p class="lead">Jste klub, interpret nebo partner a chcete s námi spolupracovat? Vyplňte formulář a ozveme se vám.</p>
         <a class="cta-mail" href="mailto:info@vibeevents.cz"><svg><use href="#i-mail"/></svg>info@vibeevents.cz</a>
       </div>
-      <!-- formulář zpracovává Netlify Forms (přehled v administraci Netlify, upozornění e-mailem) -->
-      <form class="cform" id="cform" name="spoluprace" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="spoluprace">
-        <p class="hp"><label>Nevyplňujte: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+      <!-- formulář odesílá FormSubmit.co na info@vibeevents.cz (první zprávu je třeba potvrdit odkazem v e-mailu) -->
+      <form class="cform" id="cform" name="spoluprace" method="POST" action="https://formsubmit.co/info@vibeevents.cz">
+        <input type="hidden" name="_subject" value="Nová zpráva z webu vibeevents.cz – spolupráce">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <p class="hp"><label>Nevyplňujte: <input name="_honey" tabindex="-1" autocomplete="off"></label></p>
         <label class="field"><span>Jméno a příjmení / Firma</span><input type="text" name="jmeno" autocomplete="name" required></label>
         <label class="field"><span>Telefon</span><input type="tel" name="telefon" autocomplete="tel" required></label>
         <label class="field full"><span>E-mail</span><input type="email" name="email" autocomplete="email" required></label>
@@ -779,14 +781,18 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--muted);f
     if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); sx = null;
   });
 
-  // formulář spolupráce -> Netlify Forms (odeslání bez opuštění stránky)
+  // formulář spolupráce -> FormSubmit (AJAX, odeslání bez opuštění stránky)
   var cf = document.getElementById('cform'), cs = document.getElementById('cformStatus');
   cf.addEventListener('submit', function(e){
     e.preventDefault();
     var btn = cf.querySelector('button[type=submit]'); btn.disabled = true;
     cs.className = 'cform-status'; cs.textContent = 'Odesílám…';
-    fetch('/', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:new URLSearchParams(new FormData(cf)).toString()})
-      .then(function(r){ if (!r.ok) throw new Error(r.status);
+    var data = {}; new FormData(cf).forEach(function(v, k){ data[k] = v; });
+    if (data._honey) { btn.disabled = false; return; }
+    data._replyto = data.email;
+    fetch('https://formsubmit.co/ajax/info@vibeevents.cz', {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(data)})
+      .then(function(r){ return r.json().then(function(j){ if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || r.status); }); })
+      .then(function(){
         cf.reset(); cs.className = 'cform-status ok'; cs.textContent = 'Děkujeme! Zprávu jsme přijali a brzy se vám ozveme.'; })
       .catch(function(){ cs.className = 'cform-status err'; cs.innerHTML = 'Zprávu se nepodařilo odeslat. Napište nám prosím na <a href="mailto:info@vibeevents.cz">info@vibeevents.cz</a>.'; })
       .finally(function(){ btn.disabled = false; });
