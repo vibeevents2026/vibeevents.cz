@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIBE – party, koncerty a 18+ akce po ČR a SK</title>
+<meta name="description" content="VIBE EVENTS pořádá party po celé ČR a SK, VIBE SHOWS přiváží koncerty největších interpretů a VIBE CITY PRAGUE pořádá 18+ akce v Praze. Aktuální akce a vstupenky na jednom místě.">
+<meta name="theme-color" content="#07060a">
+<link rel="icon" href="img/vibe-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07060a; --bg2:#0e0c14; --card:#13111b; --line:rgba(255,255,255,.08);
+  --text:#f2f0f7; --muted:#9a96a8;
+  --violet:#8b5cf6; --violet2:#6d28d9; --violet-glow:rgba(139,92,246,.45);
+  --pink:#ff6fc1; --pink2:#ff3fa6; --blue:#a8ecfa; --blue2:#5fd0ef; --city:#ff8ad6; --city2:#f565c4;
+  --chrome:linear-gradient(180deg,#ffffff 0%,#d9dbe0 22%,#8e929b 48%,#f4f5f7 52%,#b9bcc4 75%,#e9eaee 100%);
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --display:"Unbounded",system-ui,sans-serif; --sans:"Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+.wrap{width:min(1240px,100% - 40px);margin-inline:auto}
+section{padding:clamp(80px,11vw,140px) 0;position:relative}
+
+/* typography */
+.kicker{font-family:var(--display);font-size:12px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--violet);display:inline-flex;align-items:center;gap:12px;margin-bottom:22px}
+.kicker::before{content:"";width:28px;height:1px;background:currentColor}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.05;letter-spacing:-.01em}
+h2{font-size:clamp(34px,5.4vw,68px);text-transform:uppercase}
+.chrome-text{background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pink-text{background:linear-gradient(90deg,#ffc2ea,#ff6fc1 50%,#ff3fa6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.blue-text{background:linear-gradient(90deg,#e3f9ff,#a8ecfa 50%,#5fd0ef);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 span{width:fit-content}
+.vibe-grad{background:linear-gradient(90deg,#ff6fc1 0%,#a78bfa 50%,#a8ecfa 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.city-text{color:#fff;-webkit-text-stroke:5px var(--city);paint-order:stroke fill;text-shadow:3px 4px 0 #000,0 0 22px rgba(255,138,214,.45);letter-spacing:.01em}
+.violet-text{background:linear-gradient(90deg,#c4b5fd,#8b5cf6 60%,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:clamp(16px,1.4vw,18px);max-width:560px}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap;margin-bottom:clamp(40px,5vw,64px)}
+
+/* buttons – chrome & violet */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 30px;border-radius:999px;border:0;font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;overflow:hidden;isolation:isolate;transition:transform .35s var(--ease),box-shadow .35s var(--ease);white-space:nowrap}
+.btn svg{width:16px;height:16px;flex:none}
+.btn::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.75) 48%,transparent 66%);transform:translateX(-120%);transition:transform .9s var(--ease)}
+.btn:hover::after{transform:translateX(120%)}
+.btn:hover{transform:translateY(-2px)}
+.btn-chrome{color:#16141c;background:var(--chrome);box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.35),0 8px 26px rgba(255,255,255,.08)}
+.btn-chrome:hover{box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.35),0 12px 34px rgba(255,255,255,.18)}
+.btn-violet{color:#fff;background:linear-gradient(135deg,#a78bfa 0%,#8b5cf6 35%,#6d28d9 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 10px 30px var(--violet-glow)}
+.btn-violet::after{background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 48%,transparent 66%)}
+.btn-violet:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 14px 44px rgba(139,92,246,.7)}
+.btn-pink{color:#fff;text-shadow:0 1px 2px rgba(120,0,60,.35);background:linear-gradient(135deg,#ffc2ea 0%,#ff6fc1 45%,#e8369c 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 0 0 1px rgba(255,111,193,.4),0 10px 32px rgba(255,63,166,.45)}
+.btn-pink:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 0 0 1px rgba(255,111,193,.6),0 14px 46px rgba(255,63,166,.7)}
+.btn-blue{color:#06222b;background:linear-gradient(135deg,#ecfcff 0%,#a8ecfa 45%,#5fd0ef 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 0 0 1px rgba(168,236,250,.45),0 10px 32px rgba(95,208,239,.45)}
+.btn-blue:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 0 0 1px rgba(168,236,250,.65),0 14px 46px rgba(95,208,239,.7)}
+.btn-city{color:#fff;text-shadow:1px 1px 0 rgba(0,0,0,.35);background:linear-gradient(135deg,#ffd0f0 0%,#ff8ad6 45%,#f565c4 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(255,138,214,.45),0 10px 32px rgba(245,101,196,.45)}
+.btn-city:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(255,138,214,.65),0 14px 46px rgba(245,101,196,.7)}
+.btn-sm{padding:12px 20px;font-size:11px}
+
+/* header */
+.header{position:fixed;inset:0 0 auto;z-index:50;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+.header.scrolled{background:rgba(7,6,10,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:86px;transition:height .4s var(--ease)}
+.header.scrolled .wrap{height:70px}
+.logo{display:block;width:clamp(120px,12vw,150px);flex:none}
+.logo video,.logo img{width:100%;height:auto;aspect-ratio:480/202}
+.nav{display:flex;align-items:center;gap:30px}
+.nav a{font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:#d6d3df;position:relative;transition:color .3s}
+.nav a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;border-radius:2px;background:var(--violet);transform:scaleX(0);transition:transform .35s var(--ease)}
+.nav a:not(.btn):hover{color:#fff}
+.nav a:not(.btn):hover::after{transform:scaleX(1)}
+.nav .btn{color:#fff}
+
+/* hero */
+.hero{min-height:min(100svh,940px);display:flex;align-items:center;padding:150px 0 90px;overflow:hidden}
+.hero::before{content:"";position:absolute;width:900px;height:900px;left:50%;top:40%;transform:translate(-20%,-50%);background:radial-gradient(circle,rgba(139,92,246,.38),transparent 62%);filter:blur(30px);animation:float 14s ease-in-out infinite alternate;pointer-events:none}
+.hero::after{content:"";position:absolute;width:640px;height:640px;left:-220px;bottom:-280px;background:radial-gradient(circle,rgba(255,63,166,.32),transparent 65%);filter:blur(30px);pointer-events:none}
+@keyframes float{to{transform:translate(-35%,-42%) scale(1.1)}}
+.grain{position:absolute;inset:0;opacity:.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.hero{isolation:isolate}
+.hero-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;background:#000 url(img/hero-poster.jpg) center/cover no-repeat}
+.hero-bg video{width:100%;height:100%;object-fit:cover;filter:saturate(1.1)}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,6,10,.88) 0%,rgba(7,6,10,.6) 45%,rgba(7,6,10,.35) 100%),linear-gradient(180deg,rgba(7,6,10,.55) 0%,rgba(7,6,10,0) 25%,rgba(7,6,10,0) 70%,var(--bg) 100%)}
+.hero::before,.hero::after{opacity:.75;mix-blend-mode:screen}
+.hero .wrap{position:relative;z-index:1}
+.hero h1{font-size:clamp(40px,7.6vw,112px);font-weight:900;text-transform:uppercase;line-height:.95;letter-spacing:-.02em;margin-bottom:30px}
+.hero h1 span{display:block}
+.hero .lead{margin-bottom:40px;max-width:600px}
+.hero .actions{display:flex;gap:16px;flex-wrap:wrap}
+.brands-mini{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#d6d3df;background:rgba(255,255,255,.03)}
+.pill.city{border-color:rgba(255,138,214,.4);color:var(--city)}
+.pill.city i{background:var(--city);box-shadow:0 0 12px var(--city)}
+.pill i{width:7px;height:7px;border-radius:50%;background:var(--violet);box-shadow:0 0 12px var(--violet)}
+.pill.pink{border-color:rgba(255,111,193,.4);color:var(--pink)}
+.pill.blue{border-color:rgba(168,236,250,.4);color:var(--blue)}
+.pill.pink i{background:var(--pink);box-shadow:0 0 12px var(--pink)}
+.pill.blue i{background:var(--blue);box-shadow:0 0 12px var(--blue)}
+
+/* marquee */
+.marquee{border-block:1px solid var(--line);overflow:hidden;padding:22px 0;background:var(--bg2)}
+.marquee-track{display:flex;gap:48px;width:max-content;animation:marquee 38s linear infinite}
+.marquee span{font-family:var(--display);font-weight:900;font-size:clamp(22px,3vw,36px);text-transform:uppercase;white-space:nowrap;display:inline-flex;align-items:center;gap:48px}
+.marquee span::after{content:"✦";font-size:.55em;color:var(--pink)}
+.marquee span:nth-child(3n)::after{color:var(--violet)}
+.marquee span{background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0));overflow:hidden}
+.stat{padding:clamp(28px,3.5vw,48px) clamp(20px,2.6vw,36px);border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat strong{display:block;font-family:var(--display);font-weight:900;font-size:clamp(44px,5.4vw,76px);line-height:1;margin-bottom:12px;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:15px;line-height:1.45;display:block;max-width:200px}
+
+/* brands */
+.brand-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.brand-card{position:relative;padding:clamp(32px,4vw,56px);border-radius:28px;border:1px solid var(--line);background:var(--card);overflow:hidden;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;gap:30px;transition:border-color .4s,transform .5s var(--ease)}
+.brand-card:hover{transform:translateY(-4px)}
+.brand-card.b-events{border-color:rgba(255,111,193,.22)}
+.brand-card.b-shows{border-color:rgba(168,236,250,.22)}
+.brand-card.b-city{border-color:rgba(255,138,214,.22)}
+.brand-card.b-events:hover{border-color:rgba(255,111,193,.6)}
+.brand-card.b-shows:hover{border-color:rgba(168,236,250,.5)}
+.brand-card.b-city:hover{border-color:rgba(255,138,214,.6)}
+.brand-card::before{content:"";position:absolute;width:420px;height:420px;right:-160px;top:-160px;border-radius:50%;filter:blur(20px);opacity:.55;pointer-events:none}
+.brand-card.b-events::before{background:radial-gradient(circle,rgba(255,63,166,.5),transparent 65%)}
+.brand-card.b-city::before{background:radial-gradient(circle,rgba(255,138,214,.42),transparent 65%)}
+.brand-card.b-shows::before{background:radial-gradient(circle,rgba(95,208,239,.45),transparent 65%)}
+.brand-card h3{font-size:clamp(28px,2.6vw,38px);font-weight:900;text-transform:uppercase;margin-bottom:14px}
+.brand-card p{color:var(--muted);max-width:440px}
+.brand-tag{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:block}
+
+/* events */
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filter{padding:11px 20px;border-radius:999px;border:1px solid var(--line);background:transparent;color:#d6d3df;font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.06em;cursor:pointer;transition:background .3s,color .3s,border-color .3s}
+.filter:hover{border-color:rgba(255,255,255,.3)}
+.filter.on{background:var(--chrome);color:#16141c;border-color:transparent}
+.filter[data-f="show"].on{background:var(--blue);color:#06222b;box-shadow:0 0 18px rgba(95,208,239,.5)}
+.filter[data-f="party"].on{background:var(--pink);color:#fff;box-shadow:0 0 18px rgba(255,63,166,.5)}
+.filter[data-f="city"].on{background:var(--city);color:#fff;text-shadow:1px 1px 0 rgba(0,0,0,.35);box-shadow:0 0 18px rgba(255,138,214,.5)}
+.events{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.ev{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .5s var(--ease),border-color .4s,box-shadow .5s}
+.ev:hover{transform:translateY(-6px);border-color:rgba(139,92,246,.5);box-shadow:0 24px 60px -20px rgba(139,92,246,.45)}
+.ev.party:hover{border-color:rgba(255,111,193,.6);box-shadow:0 24px 60px -20px rgba(255,63,166,.45)}
+.ev.show:hover{border-color:rgba(168,236,250,.6);box-shadow:0 24px 60px -20px rgba(95,208,239,.45)}
+.ev-img{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000}
+.ev-img img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.ev:hover .ev-img img{transform:scale(1.05)}
+.ev-date{position:absolute;left:14px;top:14px;background:rgba(7,6,10,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:14px;padding:8px 12px;text-align:center;line-height:1}
+.ev-date b{display:block;font-family:var(--display);font-size:22px;font-weight:900}
+.ev-date small{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#c9c5d6}
+.ev-type{position:absolute;right:14px;top:14px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:7px 11px;border-radius:999px}
+.ev-type.show{background:var(--blue);color:#06222b;box-shadow:0 0 14px rgba(95,208,239,.55)}
+.ev-type.party{background:var(--pink);color:#fff;box-shadow:0 0 14px rgba(255,63,166,.55)}
+.ev-type.city{background:var(--city);color:#fff;text-shadow:1px 1px 0 rgba(0,0,0,.35);box-shadow:0 0 14px rgba(255,138,214,.55)}
+.ev-body{padding:22px 22px 24px;display:flex;flex-direction:column;flex:1}
+.ev-body h3{font-size:17px;line-height:1.25;text-transform:uppercase;margin-bottom:12px}
+.ev-meta{color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:4px;margin-bottom:22px}
+.ev-meta span{display:flex;align-items:center;gap:8px}
+.ev-meta svg{width:15px;height:15px;color:var(--violet);flex:none}
+.ev.cancelled{border-color:rgba(255,77,109,.55);box-shadow:0 0 0 1px rgba(255,77,109,.25)}
+.ev.cancelled:hover{transform:none;border-color:rgba(255,77,109,.8);box-shadow:0 0 0 1px rgba(255,77,109,.4)}
+.ev.cancelled .ev-img img{filter:grayscale(1) brightness(.45)}
+.ev.cancelled:hover .ev-img img{transform:none}
+.ev.cancelled h3{color:var(--muted)}
+.ev.cancelled h3 s{text-decoration-color:#ff4d6d;text-decoration-thickness:2px}
+.ev.cancelled .ev-meta{opacity:.6}
+.ev-stamp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-8deg);padding:10px 26px;border:3px solid #ff4d6d;border-radius:10px;color:#ff4d6d;background:rgba(7,6,10,.7);font-family:var(--display);font-weight:900;font-size:clamp(22px,2.4vw,30px);letter-spacing:.14em;text-transform:uppercase;box-shadow:0 0 30px rgba(255,77,109,.35)}
+.ev-stamp.so{border-color:var(--pink);color:var(--pink);box-shadow:0 0 30px rgba(255,63,166,.35)}
+.ev-alert{display:flex;align-items:center;gap:10px;padding:12px 22px;background:#ff4d6d;color:#1a0408;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.ev-alert svg{width:18px;height:18px;flex:none}
+.ev-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ev-price{font-size:13px;color:var(--muted)}
+.ev-price b{display:block;color:#fff;font-family:var(--display);font-size:18px}
+.events-more{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:44px}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.g-item{position:relative;aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:var(--card);border:0;padding:0;cursor:zoom-in;display:block;width:100%}
+.g-item img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease),filter .6s}
+.g-item::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px var(--line);background:linear-gradient(180deg,transparent 55%,rgba(7,6,10,.55));opacity:0;transition:opacity .4s;pointer-events:none}
+.g-item:hover img{transform:scale(1.06)}
+.g-item:hover::after{opacity:1}
+.g-item:nth-child(3n+1):hover{box-shadow:0 18px 50px -18px rgba(255,63,166,.55)}
+.g-item:nth-child(3n+2):hover{box-shadow:0 18px 50px -18px rgba(95,208,239,.55)}
+.g-item:nth-child(3n):hover{box-shadow:0 18px 50px -18px rgba(139,92,246,.6)}
+.g-item[hidden]{display:none}
+.gallery-more{display:flex;justify-content:center;margin-top:36px}
+
+/* hall of fame */
+.hof{background:var(--bg2);overflow:hidden}
+#hall-of-fame{padding-top:0}
+.hof .marquee{position:relative;z-index:1;margin-bottom:clamp(60px,8vw,100px);background:var(--bg)}
+.hof::before{content:"";position:absolute;left:50%;top:0;width:1000px;height:500px;transform:translateX(-50%);background:radial-gradient(ellipse at top,rgba(139,92,246,.22),transparent 65%);pointer-events:none}
+.hof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;position:relative}
+.artist{position:relative;border:1px solid var(--line);border-radius:22px;padding:clamp(24px,3vw,36px);min-height:190px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,0) 60%);overflow:hidden;transition:border-color .4s,transform .5s var(--ease)}
+.artist::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(139,92,246,.28),transparent 55%);opacity:0;transition:opacity .4s;pointer-events:none}
+.artist:hover{border-color:rgba(139,92,246,.5);transform:translateY(-4px)}
+.artist:hover::after{opacity:1}
+.artist{min-height:clamp(220px,22vw,320px)}
+.artist-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;transition:transform 1s var(--ease)}
+.artist.has-photo::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,6,10,.55) 0%,rgba(7,6,10,0) 30%,rgba(7,6,10,.15) 55%,rgba(7,6,10,.95) 100%);z-index:1}
+.artist.has-photo:hover .artist-photo{transform:scale(1.05)}
+.artist.has-photo .artist-top{color:#e6e3ee}
+.artist-top,.artist h3{position:relative;z-index:2}
+.artist.has-photo h3{filter:drop-shadow(0 2px 12px rgba(0,0,0,.85))}
+.artist-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+.artist-top svg{width:22px;height:22px;color:var(--violet)}
+.artist h3{font-size:clamp(26px,3vw,40px);font-weight:900;text-transform:uppercase;line-height:1;margin-top:34px;position:relative;z-index:1}
+.hof-note{margin-top:40px;color:var(--muted);text-align:center}
+
+/* contact */
+.cta{border-radius:32px;border:1px solid var(--line);padding:clamp(40px,6vw,80px);background:radial-gradient(ellipse at 85% 0%,rgba(139,92,246,.35),transparent 60%),var(--card);display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:end;overflow:hidden;position:relative}
+.cta h2{margin-bottom:18px}
+.cta{grid-template-columns:1.05fr 1fr !important;align-items:start !important;gap:clamp(36px,5vw,72px) !important}
+.cta > *{min-width:0}
+.cta h2{font-size:clamp(26px,2.9vw,42px)}
+.cform{align-items:end}
+.cta-mail{display:inline-flex;align-items:center;gap:10px;margin-top:26px;color:#fff;text-decoration:none;font-weight:600;font-size:17px;border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:4px;transition:border-color .3s,color .3s}
+.cta-mail:hover{color:#c4b5fd;border-color:#c4b5fd}
+.cta-mail svg{width:20px;height:20px;color:var(--violet)}
+.cform{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cform .full{grid-column:1/-1}
+.cform .hp{position:absolute;left:-9999px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.field input,.field textarea{width:100%;font:inherit;color:#fff;background:rgba(7,6,10,.6);border:1px solid var(--line);border-radius:14px;padding:14px 16px;outline:none;transition:border-color .3s,box-shadow .3s;resize:vertical}
+.field input:focus,.field textarea:focus{border-color:rgba(139,92,246,.7);box-shadow:0 0 0 4px rgba(139,92,246,.18)}
+.cform-foot{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:6px}
+.cform-status{font-size:14px;color:var(--muted)}
+.cform-status.ok{color:#86efac}.cform-status.err{color:#ff8fa3}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--muted);font-size:14px}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap}
+.foot .logo{width:130px}
+.foot nav{display:flex;gap:26px;flex-wrap:wrap}
+.foot nav a{text-decoration:none;text-transform:uppercase;letter-spacing:.1em;font-size:12px}
+.foot nav a:hover{color:#fff}
+.company{margin-top:36px;padding-top:28px;border-top:1px solid var(--line);display:grid;grid-template-columns:1.2fr .8fr 1.4fr 1fr;gap:20px 32px;font-size:13px;line-height:1.7}
+.company strong{color:#e6e3ee;font-weight:600}
+.company a{color:#c4b5fd;text-decoration:none}
+@media (max-width:860px){.company{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.company{grid-template-columns:1fr}}
+.copy{margin-top:36px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px}
+
+/* faq */
+.faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(36px,6vw,90px);align-items:start}
+.faq-head{position:sticky;top:110px}
+.faq-head h2{margin-bottom:18px}
+.faq-list{display:flex;flex-direction:column;gap:12px}
+.faq-item{border:1px solid var(--line);border-radius:18px;background:var(--card);transition:border-color .35s,box-shadow .35s}
+.faq-item[open]{border-color:rgba(139,92,246,.5);box-shadow:0 18px 50px -24px rgba(139,92,246,.55)}
+.faq-item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 24px;font-family:var(--display);font-weight:700;font-size:clamp(15px,1.3vw,17px);line-height:1.35}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary:hover{color:#fff}
+.faq-item summary i{position:relative;flex:none;width:34px;height:34px;border-radius:50%;background:var(--chrome);box-shadow:inset 0 1px 0 #fff,0 4px 14px rgba(255,255,255,.08)}
+.faq-item summary i::before,.faq-item summary i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;margin:-1px 0 0 -6px;background:#16141c;border-radius:2px;transition:transform .35s var(--ease)}
+.faq-item summary i::after{transform:rotate(90deg)}
+.faq-item[open] summary i{background:linear-gradient(135deg,#a78bfa,#6d28d9)}
+.faq-item[open] summary i::before,.faq-item[open] summary i::after{background:#fff}
+.faq-item[open] summary i::after{transform:rotate(0deg)}
+.faq-a{padding:0 24px 22px;color:var(--muted);animation:faqIn .45s var(--ease)}
+.faq-a a,.faq-head a{color:#c4b5fd}
+@keyframes faqIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@media (max-width:860px){.faq-wrap{grid-template-columns:1fr}.faq-head{position:static}}
+@media (max-width:600px){.faq-item summary{padding:18px}.faq-a{padding:0 18px 18px}}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(5,4,8,.94);display:none;align-items:center;justify-content:center;padding:4vw}
+.lb.open{display:flex}
+.lb img{max-height:86vh;max-width:min(92vw,1100px);border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.lb-close{position:absolute;top:18px;right:18px}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;padding:0;border-radius:50%}
+.lb-nav:hover{transform:translateY(-50%) scale(1.06)}
+.lb-prev{left:18px}.lb-next{right:18px}
+.lb-count{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:13px;letter-spacing:.2em;color:var(--muted)}
+@media (max-width:600px){.lb-nav{top:auto;bottom:16px;transform:none}.lb-nav:hover{transform:none}.lb-prev{left:calc(50% - 70px)}.lb-next{right:calc(50% - 70px)}.lb-count{bottom:84px}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease),transform 1s var(--ease);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:1020px){
+  .events{grid-template-columns:repeat(2,1fr)}
+  .hof-grid{grid-template-columns:repeat(2,1fr)}
+  .brand-grid{grid-template-columns:1fr}
+  .brand-card{min-height:0}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .gallery{grid-template-columns:repeat(4,1fr)}
+}
+@media (max-width:860px){
+  .cta{grid-template-columns:1fr !important}
+  .nav a:not(.btn){display:none}
+  .brand-grid,.cta{grid-template-columns:1fr}
+  .brand-card{min-height:0}
+}
+@media (max-width:600px){
+  .cta{padding:32px 22px;border-radius:24px}
+  .cta > *{min-width:0}
+  .cta{grid-template-columns:1fr !important}
+  .cform{grid-template-columns:1fr}
+  .cform .btn{width:100%;white-space:normal}
+  .hero-bg::after{background:linear-gradient(180deg,rgba(7,6,10,.7) 0%,rgba(7,6,10,.65) 50%,var(--bg) 100%)}
+  .wrap{width:calc(100% - 32px)}
+  .header .wrap{height:72px}
+  .logo{width:112px}
+  .nav .btn{padding:11px 16px;font-size:10px}
+  .hero{padding:130px 0 70px;min-height:auto}
+  .hero .actions .btn{flex:1 1 100%}
+  .events{grid-template-columns:1fr}
+  .hof-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .artist{min-height:200px;padding:18px;border-radius:18px}
+  .artist h3{font-size:18px;margin-top:22px;word-break:break-word}
+  .artist-top{font-size:10px}
+  .gallery{grid-template-columns:1fr 1fr;gap:10px}
+  .g-item{border-radius:14px}
+  .stat strong{font-size:40px}
+  .stat span{font-size:13px}
+  .copy{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  .marquee-track,.hero::before{animation:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-ticket" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a3 3 0 0 0 0 6v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-3a3 3 0 0 0 0-6z"/><path d="M14 5v2M14 11v2M14 17v2"/></g></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></g></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></g></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4L2.8 9.5l6.4-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></g></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></g></symbol>
+  </defs>
+</svg>
+
+<header class="header" id="header">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="VIBE – úvod">
+      <video id="logoVid" autoplay muted loop playsinline preload="auto" poster="img/vibe-logo.png" aria-label="Logo VIBE">
+        <source src="video/vibe-logo.webm" type="video/webm">
+        <source src="video/vibe-logo.mov" type='video/mp4; codecs="hvc1"'>
+      </video>
+    </a>
+    <nav class="nav" aria-label="Hlavní navigace">
+      <a href="#akce">Akce</a>
+      <a href="#o-nas">O nás</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#hall-of-fame">Hall of Fame</a>
+      <a href="#faq">FAQ</a>
+      <a href="#kontakt">Kontakt</a>
+      <a href="#akce" class="btn btn-violet btn-sm"><svg><use href="#i-ticket"/></svg>Vstupenky</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <video id="heroVid" muted loop playsinline autoplay preload="auto" poster="img/hero-poster.jpg"></video>
+  </div>
+  <div class="grain"></div>
+  <div class="wrap">
+    <div class="brands-mini reveal">
+      <span class="pill pink"><i></i>VIBE EVENTS · 15+</span>
+      <span class="pill blue"><i></i>VIBE SHOWS</span>
+      <span class="pill city"><i></i>VIBE CITY PRAGUE · 18+</span>
+    </div>
+    <h1 class="reveal" style="--d:.1s"><span class="chrome-text">Live your</span><span class="chrome-text">best life</span><span class="vibe-grad">with VIBE.</span></h1>
+    <p class="lead reveal" style="--d:.2s">Pořádáme parties a koncerty po celé České republice. VIBE EVENTS stojí za studentskými akcemi, VIBE SHOWS přiváží na pódia nejvýraznější jména československé rapové scény a VIBE CITY PRAGUE pořádá exkluzivní 18+ akce v Praze.</p>
+    <div class="actions reveal" style="--d:.3s">
+      <a href="#akce" class="btn btn-violet"><svg><use href="#i-ticket"/></svg>Aktuální akce</a>
+      <a href="#hall-of-fame" class="btn btn-chrome">Hall of Fame<svg><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+
+
+<!-- STATISTIKY -->
+<section id="o-nas" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat reveal"><strong class="pink-text" data-count="25">+25</strong><span>měst po ČR a SK</span></div>
+      <div class="stat reveal" style="--d:.08s"><strong class="blue-text" data-count="500">+500</strong><span>uspořádaných akcí</span></div>
+      <div class="stat reveal" style="--d:.16s"><strong class="chrome-text" data-count="5">+5</strong><span>let zkušeností</span></div>
+      <div class="stat reveal" style="--d:.24s"><strong class="violet-text" data-count="20">+20</strong><span>interpretů</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ZNAČKY -->
+<section id="znacky">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker reveal">Kdo jsme</div>
+        <h2 class="reveal" style="--d:.1s">Tři značky,<br><span class="chrome-text">jeden vibe</span></h2>
+      </div>
+    </div>
+    <div class="brand-grid">
+      <article class="brand-card b-events reveal">
+        <div>
+          <span class="brand-tag">Party agentura</span>
+          <h3 class="pink-text">VIBE EVENTS</h3>
+          <p>Pořádáme největší studentské akce po celé České republice, v těch nejlepších klubech.</p>
+        </div>
+        <a href="#akce" class="btn btn-pink" style="align-self:flex-start" data-filter-link="party">Party akce<svg><use href="#i-arrow"/></svg></a>
+      </article>
+      <article class="brand-card b-shows reveal" style="--d:.1s">
+        <div>
+          <span class="brand-tag">Booking agentura</span>
+          <h3 class="blue-text">VIBE SHOWS</h3>
+          <p>Koncerty a turné největších československých rapových umělců.</p>
+        </div>
+        <a href="#akce" class="btn btn-blue" style="align-self:flex-start" data-filter-link="show">Koncerty<svg><use href="#i-arrow"/></svg></a>
+      </article>
+      <article class="brand-card b-city reveal" style="--d:.2s">
+        <div>
+          <span class="brand-tag">18+ akce v Praze</span>
+          <h3 class="city-text">VIBE CITY PRAGUE</h3>
+          <p>Exkluzivní 18+ akce v těch nejlepších pražských venues se zaměřením na hip hop a rap.</p>
+        </div>
+        <a href="#akce" class="btn btn-city" style="align-self:flex-start" data-filter-link="city">Akce 18+<svg><use href="#i-arrow"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- AKCE -->
+<section id="akce" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker reveal">Vstupenky</div>
+        <h2 class="reveal" style="--d:.1s">Aktuální <span class="violet-text">akce</span></h2>
+      </div>
+      <div class="filters reveal" style="--d:.2s" role="tablist" aria-label="Filtr akcí">
+        <button class="filter on" data-f="all" role="tab" aria-selected="true">Vše</button>
+        <button class="filter" data-f="show" role="tab" aria-selected="false">Koncerty · VIBE SHOWS</button>
+        <button class="filter" data-f="party" role="tab" aria-selected="false">Party · VIBE EVENTS</button>
+        <button class="filter" data-f="city" role="tab" aria-selected="false">18+ · VIBE CITY PRAGUE</button>
+      </div>
+    </div>
+    <div class="events" id="events"></div>
+    <div class="events-more">
+      <button class="btn btn-chrome" id="showMore" hidden>Zobrazit další akce</button>
+      <a href="https://www.eventlook.cz/udalosti/?organizer=152" target="_blank" rel="noopener" class="btn btn-violet"><svg><use href="#i-ticket"/></svg>Všechny akce na Eventlook</a>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section id="galerie" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker reveal">Fotogalerie</div>
+        <h2 class="reveal" style="--d:.1s">Jak to u nás <span class="chrome-text">vypadá</span></h2>
+      </div>
+      <p class="lead reveal" style="--d:.2s">Momenty z našich party a koncertů. Klikni na fotku pro zvětšení.</p>
+    </div>
+    <div class="gallery" id="gallery">
+      <button class="g-item reveal" style="--d:0.00s" data-full="img/gallery/full/vibe-21.jpg" aria-label="Zvětšit fotku 1"><img src="img/gallery/thumb/vibe-21.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.05s" data-full="img/gallery/full/vibe-03.jpg" aria-label="Zvětšit fotku 2"><img src="img/gallery/thumb/vibe-03.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.10s" data-full="img/gallery/full/vibe-07.jpg" aria-label="Zvětšit fotku 3"><img src="img/gallery/thumb/vibe-07.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.15s" data-full="img/gallery/full/vibe-13.jpg" aria-label="Zvětšit fotku 4"><img src="img/gallery/thumb/vibe-13.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.20s" data-full="img/gallery/full/vibe-19.jpg" aria-label="Zvětšit fotku 5"><img src="img/gallery/thumb/vibe-19.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.00s" data-full="img/gallery/full/vibe-23.jpg" aria-label="Zvětšit fotku 6"><img src="img/gallery/thumb/vibe-23.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.05s" data-full="img/gallery/full/vibe-10.jpg" aria-label="Zvětšit fotku 7"><img src="img/gallery/thumb/vibe-10.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.10s" data-full="img/gallery/full/vibe-04.jpg" aria-label="Zvětšit fotku 8"><img src="img/gallery/thumb/vibe-04.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.15s" data-full="img/gallery/full/vibe-24.jpg" aria-label="Zvětšit fotku 9"><img src="img/gallery/thumb/vibe-24.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.20s" data-full="img/gallery/full/vibe-22.jpg" aria-label="Zvětšit fotku 10"><img src="img/gallery/thumb/vibe-22.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.00s" data-full="img/gallery/full/vibe-02.jpg" aria-label="Zvětšit fotku 11"><img src="img/gallery/thumb/vibe-02.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.05s" data-full="img/gallery/full/vibe-06.jpg" aria-label="Zvětšit fotku 12"><img src="img/gallery/thumb/vibe-06.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.10s" data-full="img/gallery/full/vibe-14.jpg" aria-label="Zvětšit fotku 13"><img src="img/gallery/thumb/vibe-14.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.15s" data-full="img/gallery/full/vibe-20.jpg" aria-label="Zvětšit fotku 14"><img src="img/gallery/thumb/vibe-20.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.20s" data-full="img/gallery/full/vibe-25.jpg" aria-label="Zvětšit fotku 15"><img src="img/gallery/thumb/vibe-25.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.00s" data-full="img/gallery/full/vibe-08.jpg" aria-label="Zvětšit fotku 16"><img src="img/gallery/thumb/vibe-08.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.05s" data-full="img/gallery/full/vibe-15.jpg" aria-label="Zvětšit fotku 17"><img src="img/gallery/thumb/vibe-15.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.10s" data-full="img/gallery/full/vibe-01.jpg" aria-label="Zvětšit fotku 18"><img src="img/gallery/thumb/vibe-01.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.15s" data-full="img/gallery/full/vibe-09.jpg" aria-label="Zvětšit fotku 19"><img src="img/gallery/thumb/vibe-09.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.20s" data-full="img/gallery/full/vibe-16.jpg" aria-label="Zvětšit fotku 20"><img src="img/gallery/thumb/vibe-16.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.00s" data-full="img/gallery/full/vibe-18.jpg" aria-label="Zvětšit fotku 21"><img src="img/gallery/thumb/vibe-18.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.05s" data-full="img/gallery/full/vibe-12.jpg" aria-label="Zvětšit fotku 22"><img src="img/gallery/thumb/vibe-12.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.10s" data-full="img/gallery/full/vibe-05.jpg" aria-label="Zvětšit fotku 23"><img src="img/gallery/thumb/vibe-05.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.15s" data-full="img/gallery/full/vibe-11.jpg" aria-label="Zvětšit fotku 24"><img src="img/gallery/thumb/vibe-11.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+      <button class="g-item reveal" style="--d:0.20s" data-full="img/gallery/full/vibe-17.jpg" aria-label="Zvětšit fotku 25"><img src="img/gallery/thumb/vibe-17.jpg" alt="Fotka z akce VIBE" loading="lazy" width="600" height="900"></button>
+    </div>
+    <div class="gallery-more"><button class="btn btn-chrome" id="galMore">Zobrazit všechny fotky (25)</button></div>
+  </div>
+</section>
+
+<!-- HALL OF FAME -->
+<section id="hall-of-fame" class="hof">
+  <!-- jezdící jména interpretů -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marquee"></div>
+  </div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker reveal" style="color:var(--pink)">VIBE SHOWS</div>
+        <h2 class="reveal" style="--d:.1s"><span class="chrome-text">Hall</span> of <span class="violet-text">Fame</span></h2>
+      </div>
+      <p class="lead reveal" style="--d:.2s">Interpreti, se kterými jsme již spolupracovali.</p>
+    </div>
+    <div class="hof-grid" id="hof"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap faq-wrap">
+    <div class="faq-head">
+      <div class="kicker reveal">FAQ</div>
+      <h2 class="reveal" style="--d:.1s">Časté <span class="violet-text">dotazy</span></h2>
+      <p class="lead reveal" style="--d:.2s">Nenašel jsi odpověď? Napiš nám na <a href="mailto:info@vibeevents.cz">info@vibeevents.cz</a>.</p>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item reveal" style="--d:0.00s" open>
+        <summary><span>Od kolika let jsou akce?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-a"><p>Studentské akce a koncerty jsou až na výjimky od 15 let. Akce VIBE CITY PRAGUE jsou od 18 let. Věkové omezení najdeš v popisku každé akce.</p></div>
+      </details>
+      <details class="faq-item reveal" style="--d:0.10s">
+        <summary><span>Co když mi nepřišla vstupenka do emailu?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-a"><p>V případě, že nedorazila vstupenka, doporučujeme prohledat e-mail, zda není například ve spamu. Pokud ani tak není, kontaktujte podporu na <a href="mailto:info@eventlook.cz">info@eventlook.cz</a>.</p></div>
+      </details>
+      <details class="faq-item reveal" style="--d:0.15s">
+        <summary><span>Musím mít doklad?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-a"><p>Ano, při vstupu je potřeba se prokázat platným dokladem totožnosti (OP, pas, eDoklady,…).</p></div>
+      </details>
+      <details class="faq-item reveal" style="--d:0.00s">
+        <summary><span>Co se na akcích hraje?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-a"><p>Na akcích VIBE se hrají aktuální trendy a hity pro naši cílovou skupinu (hip-hop, rap, R&amp;B, pop).</p></div>
+      </details>
+      <details class="faq-item reveal" style="--d:0.05s">
+        <summary><span>Jak získat vstup zdarma?</span><i aria-hidden="true"></i></summary>
+        <div class="faq-a"><p>Pro pražské akce stačí na Instagramu sledovat <a href="https://www.instagram.com/vibeambasadors.cz/" target="_blank" rel="noopener">@vibeambasadors.cz</a>. U ostatních měst napiš na Instagramový účet dané lokality.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="wrap">
+    <div class="cta reveal">
+      <div>
+        <div class="kicker">Spolupráce</div>
+        <h2>Pojďme <span class="violet-text">spolupracovat.</span></h2>
+        <p class="lead">Jste klub, interpret nebo partner a chcete s námi spolupracovat? Vyplňte formulář a ozveme se vám.</p>
+        <a class="cta-mail" href="mailto:info@vibeevents.cz"><svg><use href="#i-mail"/></svg>info@vibeevents.cz</a>
+      </div>
+      <!-- formulář zpracovává Netlify Forms (přehled v administraci Netlify, upozornění e-mailem) -->
+      <form class="cform" id="cform" name="spoluprace" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="spoluprace">
+        <p class="hp"><label>Nevyplňujte: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <label class="field"><span>Jméno a příjmení / Firma</span><input type="text" name="jmeno" autocomplete="name" required></label>
+        <label class="field"><span>Telefon</span><input type="tel" name="telefon" autocomplete="tel" required></label>
+        <label class="field full"><span>E-mail</span><input type="email" name="email" autocomplete="email" required></label>
+        <label class="field full"><span>Zpráva</span><textarea name="zprava" rows="4" required></textarea></label>
+        <div class="full cform-foot">
+          <button type="submit" class="btn btn-violet">Odeslat zprávu<svg><use href="#i-arrow"/></svg></button>
+          <p class="cform-status" id="cformStatus" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a href="#top" class="logo" aria-label="VIBE – nahoru"><img src="img/vibe-logo.png" alt="VIBE" width="480" height="202" loading="lazy"></a>
+      <nav aria-label="Patička">
+        <a href="#akce">Akce</a><a href="#o-nas">O nás</a><a href="#galerie">Galerie</a><a href="#hall-of-fame">Hall of Fame</a><a href="#faq">FAQ</a><a href="#kontakt">Kontakt</a>
+      </nav>
+    </div>
+    <div class="company">
+      <p><strong>VBSH Production, s.r.o.</strong><br>Vinohradská 2396/184, Vinohrady, 130 00 Praha 3</p>
+      <p>IČO: 23561815<br>DIČ: CZ23561815</p>
+      <p>Zapsáno v obchodním rejstříku vedeném Městským soudem v Praze, oddíl C, vložka 428538</p>
+      <p>E-mail: <a href="mailto:info@vibeevents.cz">info@vibeevents.cz</a></p>
+    </div>
+    <div class="copy">
+      <span>© <span id="year">2026</span> VIBE EVENTS · VIBE SHOWS · VIBE CITY PRAGUE</span>
+      <span>Vstupenky prodává <a href="https://www.eventlook.cz/udalosti/?organizer=152" target="_blank" rel="noopener">Eventlook</a></span>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Fotografie">
+  <button class="btn btn-chrome btn-sm lb-close" id="lbClose">Zavřít</button>
+  <button class="btn btn-violet lb-nav lb-prev" id="lbPrev" aria-label="Předchozí fotka"><svg style="transform:scaleX(-1)"><use href="#i-arrow"/></svg></button>
+  <img src="" alt="">
+  <button class="btn btn-violet lb-nav lb-next" id="lbNext" aria-label="Další fotka"><svg><use href="#i-arrow"/></svg></button>
+  <span class="lb-count" id="lbCount"></span>
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // logo: iPhone/iPad/Safari -> animovaný WebP s průhledností (hraje i v úsporném režimu),
+  // ostatní -> WebM VP9 s alfa; když se video nespustí, přepne se na WebP
+  var v = document.getElementById('logoVid');
+  var ua = navigator.userAgent;
+  var isApple = /iPhone|iPad|iPod/.test(ua) || (/Safari/.test(ua) && !/Chrome|Chromium|CriOS|FxiOS|Edg|OPR|Android/.test(ua));
+  function logoToImage(){
+    if (!v || !v.parentNode) return;
+    var img = document.createElement('img');
+    img.src = reduce ? 'img/vibe-logo.png' : 'img/vibe-logo-anim.webp';
+    img.alt = 'VIBE'; img.width = 480; img.height = 202;
+    v.parentNode.replaceChild(img, v); v = null;
+  }
+  if (isApple || reduce) logoToImage();
+  else {
+    v.addEventListener('error', logoToImage, true);
+    var p = v.play(); if (p && p.catch) p.catch(logoToImage);
+  }
+
+  // video na pozadí úvodu (bez zvuku, ve smyčce; menší verze pro mobil)
+  var hv = document.getElementById('heroVid');
+  if (!reduce) {
+    hv.src = window.matchMedia('(max-width:700px)').matches ? 'video/hero-aftermovie-mobile.mp4' : 'video/hero-aftermovie.mp4';
+    var hp = hv.play(); if (hp && hp.catch) hp.catch(function(){});
+  }
+
+  // header
+  var header = document.getElementById('header');
+  function onScroll(){ header.classList.toggle('scrolled', window.scrollY > 20); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // marquee + hall of fame
+  // pořadí určené klientem (říjen 2026); img = fotka v img/artists/
+  var artists = [
+    {n:'Nik Tendo', img:'img/artists/nik-tendo.jpg'}, {n:'Rico', img:'img/artists/rico.jpg'}, {n:'Luca Brassi10x', img:'img/artists/luca-brassi10x.jpg'}, {n:'Pil C', img:'img/artists/pil-c.jpg'}, {n:'Lboy', img:'img/artists/lboy.jpg'},
+    {n:'Hasan', img:'img/artists/hasan.jpg'}, {n:'Raphael', img:'img/artists/raphael.jpg'}, {n:'Dorian', img:'img/artists/dorian.jpg'}, {n:'Grey256', img:'img/artists/grey256.jpg'}, {n:'Sensey', img:'img/artists/sensey.jpg'},
+    {n:'Vercetti', img:'img/artists/vercetti.jpg'}, {n:'Katannah', img:'img/artists/katannah.jpg'}, {n:'Case26 & ERNE100', img:'img/artists/erne100.jpg'}, {n:'Freez247', img:'img/artists/freez247.jpg'}, {n:'MC Kenny', img:'img/artists/mc-kenny.jpg'}, {n:'Blako', img:'img/artists/blako.jpg'}
+  ];
+  var mq = document.getElementById('marquee'), html = '';
+  for (var k = 0; k < 2; k++) artists.forEach(function(a){ html += '<span>' + a.n + '</span>'; });
+  mq.innerHTML = html;
+  document.getElementById('hof').innerHTML = artists.map(function(a, i){
+    return '<article class="artist reveal' + (a.img ? ' has-photo' : '') + '" style="--d:' + (i % 3) * 0.08 + 's">' +
+      (a.img ? '<img class="artist-photo" src="' + a.img + '" alt="' + a.n + '" loading="lazy">' : '') +
+      '<div class="artist-top"><span>#' + String(i + 1).padStart(2, '0') + '</span><svg><use href="#i-mic"/></svg></div>' +
+      '<h3 class="chrome-text">' + a.n + '</h3></article>';
+  }).join('');
+  document.querySelectorAll('.artist').forEach(function(el){
+    el.addEventListener('pointermove', function(e){
+      var r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // akce (zdroj: eventlook.cz, pořadatel Vibe Events)
+  var EVENTS = /*EVENTS-DATA*/[{"id": 2047, "n": "HARD RICO FOCUS TOUR - ČESKÁ LÍPA", "u": "https://www.eventlook.cz/udalosti/hard-rico-focus-tour-ceska-lipa-ugggwj/", "d": "2026-10-16T19:00:00.000Z", "p": "LUXOR FTC", "c": "Česká Lípa", "pr": 490, "cur": "CZK", "img": "img/events/ev-2047.jpg", "t": "show", "x": true, "so": false}, {"id": 2048, "n": "HARD RICO FOCUS TOUR - TEPLICE", "u": "https://www.eventlook.cz/udalosti/hard-rico-focus-tour-teplice-jsixsx/", "d": "2026-10-23T19:00:00.000Z", "p": "Unico ME Club Teplice", "c": "Teplice", "pr": 490, "cur": "CZK", "img": "img/events/ev-2048.jpg", "t": "show", "x": false, "so": false}, {"id": 2323, "n": "WELCOME TO HAWKINS HALLOWEEN - OX", "u": "https://www.eventlook.cz/udalosti/welcome-to-hawkins-ox-wrbwro/", "d": "2026-10-23T19:00:00.000Z", "p": "OX Club Prague", "c": "Praha", "pr": 250, "cur": "CZK", "img": "img/events/ev-2323.jpg", "t": "party", "x": false, "so": false}, {"id": 2324, "n": "SILLY SPOOKY HALLOWEEN - OX", "u": "https://www.eventlook.cz/udalosti/silly-spooky-halloween-npnfeh/", "d": "2026-10-24T19:00:00.000Z", "p": "OX Club Prague", "c": "Praha", "pr": 250, "cur": "CZK", "img": "img/events/ev-2324.jpg", "t": "party", "x": false, "so": false}, {"id": 2407, "n": "HALLOWEEN RAVE - FUCHS2", "u": "https://www.eventlook.cz/udalosti/halloween-rave-fuchs-2-vkoiks/", "d": "2026-10-29T20:00:00.000Z", "p": "Fuchs2", "c": "Praha", "pr": 250, "cur": "CZK", "img": "img/events/ev-2407.jpg", "t": "party", "x": false, "so": false}, {"id": 2325, "n": "HALLOWEEN: HAUNTED HOUSE PŘÍBRAM", "u": "https://www.eventlook.cz/udalosti/halloween-haunted-house-pribram-ujmgoj/", "d": "2026-10-30T20:00:00.000Z", "p": "Music Club Peklo", "c": "Příbram", "pr": 100, "cur": "CZK", "img": "img/events/ev-2325.jpg", "t": "party", "x": false, "so": false}, {"id": 2326, "n": "HALLOWEEN: HAUNTED HOUSE KLADNO", "u": "https://www.eventlook.cz/udalosti/halloween-haunted-house-kladno-ybrwlm/", "d": "2026-10-30T20:00:00.000Z", "p": "1701", "c": "Kladno", "pr": 100, "cur": "CZK", "img": "img/events/ev-2326.jpg", "t": "party", "x": false, "so": false}, {"id": 2327, "n": "HALLOWEEN: HAUNTED HOUSE LITOMĚŘICE", "u": "https://www.eventlook.cz/udalosti/halloween-haunted-house-litomerice-zedlre/", "d": "2026-10-30T20:00:00.000Z", "p": "Luna Litoměřice", "c": "Litoměřice", "pr": 100, "cur": "CZK", "img": "img/events/ev-2327.jpg", "t": "party", "x": false, "so": false}, {"id": 2362, "n": "HALLOWEEN: HAUNTED HOUSE TEPLICE", "u": "https://www.eventlook.cz/udalosti/halloween-haunted-house-teplice-hpylbp/", "d": "2026-10-30T20:00:00.000Z", "p": "Unico ME Club Teplice", "c": "Teplice", "pr": 100, "cur": "CZK", "img": "img/events/ev-2362.jpg", "t": "party", "x": false, "so": false}, {"id": 2322, "n": "SCARY MOVIE HALLOWEEN - OX", "u": "https://www.eventlook.cz/udalosti/scary-movie-halloween-brdwmc/", "d": "2026-10-30T20:00:00.000Z", "p": "OX Club Prague", "c": "Praha", "pr": 250, "cur": "CZK", "img": "img/events/ev-2322.jpg", "t": "party", "x": false, "so": false}, {"id": 2389, "n": "HALLOWEEN: HAUNTED HOUSE BUDĚJOVICE", "u": "https://www.eventlook.cz/udalosti/halloween-haunted-house-budejovice-eixkqr/", "d": "2026-10-31T20:00:00.000Z", "p": "Brooklyn Klub", "c": "České Budějovice", "pr": 100, "cur": "CZK", "img": "img/events/ev-2389.jpg", "t": "party", "x": false, "so": false}, {"id": 2347, "n": "NEJVĚTŠÍ STUDENTSKÝ HALLOWEEN -ROXY", "u": "https://www.eventlook.cz/udalosti/studentsky-halloween-roxy-wfrncy/", "d": "2026-10-31T20:00:00.000Z", "p": "ROXY", "c": "Praha", "pr": 250, "cur": "CZK", "img": "img/events/ev-2347.jpg", "t": "party", "x": false, "so": false}, {"id": 2356, "n": "HALLOWEEN: HAUNTED HOUSE - ROXY", "u": "https://www.eventlook.cz/udalosti/halloween-haunted-house-roxy-pluavf/", "d": "2026-10-31T20:00:00.000Z", "p": "ROXY", "c": "Praha", "pr": 300, "cur": "CZK", "img": "img/events/ev-2356.jpg", "t": "party", "x": false, "so": false}, {"id": 2049, "n": "HARD RICO FOCUS TOUR - PLZEŇ", "u": "https://www.eventlook.cz/udalosti/hard-rico-focus-tour-plzen-uqusvw/", "d": "2026-11-06T20:00:00.000Z", "p": "Bílej Medvěd", "c": "Plzeň", "pr": 490, "cur": "CZK", "img": "img/events/ev-2049.jpg", "t": "show", "x": false, "so": false}, {"id": 2050, "n": "HARD RICO FOCUS TOUR - Č.BUDĚJOVICE", "u": "https://www.eventlook.cz/udalosti/hard-rico-focus-tour-cbudejovice-gbgiya/", "d": "2026-11-13T20:00:00.000Z", "p": "Brooklyn Klub", "c": "České Budějovice", "pr": 490, "cur": "CZK", "img": "img/events/ev-2050.jpg", "t": "show", "x": false, "so": false}, {"id": 2043, "n": "HARD RICO FOCUS TOUR - PARDUBICE", "u": "https://www.eventlook.cz/udalosti/hard-rico-focus-tour-pardubice-xzbihp/", "d": "2026-11-16T20:00:00.000Z", "p": "Žlutý pes", "c": "Pardubice", "pr": 490, "cur": "CZK", "img": "img/events/ev-2043.jpg", "t": "show", "x": false, "so": false}, {"id": 2371, "n": "RAPHAEL LIVE SHOW -  PRAHA DISTRIKT", "u": "https://www.eventlook.cz/udalosti/raphael-live-show-praha-distrikt-caqvkg/", "d": "2026-11-16T20:00:00.000Z", "p": "Distrikt", "c": "Praha", "pr": 390, "cur": "CZK", "img": "img/events/ev-2371.jpg", "t": "show", "x": false, "so": false}, {"id": 2052, "n": "HARD RICO FOCUS TOUR - KOLÍN", "u": "https://www.eventlook.cz/udalosti/hard-rico-focus-tour-kolin-gvhnyx/", "d": "2026-11-20T20:00:00.000Z", "p": "Staré Lázně", "c": "Kolín", "pr": 490, "cur": "CZK", "img": "img/events/ev-2052.jpg", "t": "show", "x": true, "so": false}, {"id": 1935, "n": "LBOY  - LITOMĚŘICE LUNA", "u": "https://www.eventlook.cz/udalosti/lboy-live-show-luna-kfguyh/", "d": "2026-11-21T20:00:00.000Z", "p": "Luna", "c": "Litoměřice", "pr": 400, "cur": "CZK", "img": "img/events/ev-1935.jpg", "t": "show", "x": false, "so": false}, {"id": 2053, "n": "HARD RICO FOCUS TOUR - CHEB", "u": "https://www.eventlook.cz/udalosti/hard-rico-focus-tour-cheb-cuebna/", "d": "2026-11-21T20:00:00.000Z", "p": "Club 23", "c": "Cheb", "pr": 490, "cur": "CZK", "img": "img/events/ev-2053.jpg", "t": "show", "x": false, "so": false}, {"id": 2054, "n": "HARD RICO FOCUS TOUR - ÚSTÍ N.LABEM", "u": "https://www.eventlook.cz/udalosti/hard-rico-focus-tour-usti-nlabem-dxgumn/", "d": "2026-11-28T20:00:00.000Z", "p": "Velká hradební", "c": "Ústí nad Labem", "pr": 490, "cur": "CZK", "img": "img/events/ev-2054.jpg", "t": "show", "x": true, "so": false}, {"id": 2395, "n": "VIZE 33 - CASTLE EDITION /02", "u": "https://www.eventlook.cz/udalosti/vize-33-castle-edition-02-zlbjcw/", "d": "2026-11-28T20:00:00.000Z", "p": "Martinický palác", "c": "Hlavní město Praha", "pr": 390, "cur": "CZK", "img": "img/events/ev-2395.jpg", "t": "party", "x": false, "so": false}, {"id": 2083, "n": "LBOY - TEPLICE UNICO ME", "u": "https://www.eventlook.cz/udalosti/lboy-unico-me-ojgpws/", "d": "2026-12-04T20:00:00.000Z", "p": "Unico ME Club Teplice", "c": "Teplice", "pr": 400, "cur": "CZK", "img": "img/events/ev-2083.jpg", "t": "show", "x": false, "so": false}, {"id": 2062, "n": "HARD RICO FOCUS TOUR - BRATISLAVA", "u": "https://www.eventlook.cz/udalosti/hard-rico-focus-tour-bratislava-oliepz/", "d": "2026-12-12T20:00:00.000Z", "p": "Majestic Music Club", "c": "Bratislava I", "pr": 490, "cur": "CZK", "img": "img/events/ev-2062.jpg", "t": "show", "x": false, "so": false}]/*/EVENTS-DATA*/;
+  var now = Date.now();
+  var list = EVENTS.filter(function(e){ return new Date(e.d).getTime() > now - 6 * 3600e3; })
+                   .sort(function(a, b){ return (a.x - b.x) || (new Date(a.d) - new Date(b.d)); }); // zrušené akce vždy na konec
+  var tz = 'Europe/Prague';
+  var fDay = new Intl.DateTimeFormat('cs-CZ', {day:'numeric', timeZone:tz});
+  var fMon = new Intl.DateTimeFormat('cs-CZ', {month:'short', timeZone:tz});
+  var fFull = new Intl.DateTimeFormat('cs-CZ', {weekday:'long', day:'numeric', month:'numeric', year:'numeric', timeZone:tz});
+  var fTime = new Intl.DateTimeFormat('cs-CZ', {hour:'2-digit', minute:'2-digit', timeZone:tz});
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function price(e){ if (e.pr == null) return '—'; return e.cur === 'EUR' ? e.pr + ' €' : e.pr.toLocaleString('cs-CZ') + ' Kč'; }
+  var box = document.getElementById('events'), more = document.getElementById('showMore');
+  var filter = 'all', limit = 6;
+  function render(){
+    var items = list.filter(function(e){ return filter === 'all' || e.t === filter; });
+    if (!items.length) { box.innerHTML = '<p class="empty">Momentálně tu nejsou žádné vypsané akce. Sledujte nás – brzy oznámíme další!</p>'; more.hidden = true; return; }
+    box.innerHTML = items.slice(0, limit).map(function(e){
+      var d = new Date(e.d);
+      var st = e.x ? ' cancelled' : (e.so ? ' soldout' : '');
+      return '<article class="ev ' + e.t + st + '">' +
+        '<a class="ev-img" href="' + e.u + '" target="_blank" rel="noopener" tabindex="-1"><img src="' + e.img + '" alt="' + esc(e.n) + '" loading="lazy" width="900" height="506">' +
+        '<span class="ev-date"><b>' + fDay.format(d).replace('.', '') + '</b><small>' + fMon.format(d).replace('.', '') + '</small></span>' +
+        '<span class="ev-type ' + e.t + '">' + ({show:'VIBE SHOWS', party:'VIBE EVENTS', city:'VIBE CITY PRAGUE · 18+'})[e.t] + '</span>' +
+        (e.x ? '<span class="ev-stamp">Zrušeno</span>' : e.so ? '<span class="ev-stamp so">Vyprodáno</span>' : '') + '</a>' +
+        (e.x ? '<div class="ev-alert" role="status"><svg><use href="#i-alert"/></svg>Tato akce byla zrušena</div>' : '') +
+        '<div class="ev-body"><h3>' + (e.x ? '<s>' + esc(e.n) + '</s>' : esc(e.n)) + '</h3>' +
+        '<div class="ev-meta"><span><svg><use href="#i-pin"/></svg>' + esc(e.p) + ', ' + esc(e.c) + '</span>' +
+        '<span><svg><use href="#i-clock"/></svg>' + fFull.format(d) + ' · ' + fTime.format(d) + '</span></div>' +
+        (e.x ? '<div class="ev-foot"><span class="ev-price">Informace o vstupenkách<b>na Eventlooku</b></span>' +
+               '<a class="btn btn-chrome btn-sm" href="' + e.u + '" target="_blank" rel="noopener">Detail akce</a></div>'
+          : e.so ? '<div class="ev-foot"><span class="ev-price">vstupenky<b>Vyprodáno</b></span>' +
+               '<a class="btn btn-chrome btn-sm" href="' + e.u + '" target="_blank" rel="noopener">Detail akce</a></div>'
+          : '<div class="ev-foot"><span class="ev-price">vstupenky od<b>' + price(e) + '</b></span>' +
+            '<a class="btn btn-violet btn-sm" href="' + e.u + '" target="_blank" rel="noopener"><svg><use href="#i-ticket"/></svg>Koupit</a></div>') +
+        '</div></article>';
+    }).join('');
+    more.hidden = items.length <= limit;
+  }
+  render();
+  more.addEventListener('click', function(){ limit += 6; render(); });
+  var tabs = document.querySelectorAll('.filter');
+  function setFilter(f){
+    filter = f; limit = 6;
+    tabs.forEach(function(t){ var on = t.dataset.f === f; t.classList.toggle('on', on); t.setAttribute('aria-selected', on); });
+    render();
+  }
+  tabs.forEach(function(t){ t.addEventListener('click', function(){ setFilter(t.dataset.f); }); });
+  document.querySelectorAll('[data-filter-link]').forEach(function(a){ a.addEventListener('click', function(){ setFilter(a.dataset.filterLink); }); });
+
+  // reveal
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12, rootMargin:'0px 0px -40px 0px'}) : null;
+  document.querySelectorAll('.reveal').forEach(function(el){ io ? io.observe(el) : el.classList.add('in'); });
+
+  // počítadla
+  var cio = 'IntersectionObserver' in window ? new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return; cio.unobserve(e.target);
+      var el = e.target, to = +el.dataset.count, t0 = null;
+      if (reduce) return;
+      (function step(ts){ if (!t0) t0 = ts; var p = Math.min((ts - t0) / 1600, 1); el.textContent = '+' + Math.round(to * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); })(performance.now());
+    });
+  }, {threshold:.5}) : null;
+  if (cio) document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
+
+  // galerie: zobrazit nejdřív část, zbytek po kliknutí
+  var gItems = Array.prototype.slice.call(document.querySelectorAll('#gallery .g-item'));
+  var galMore = document.getElementById('galMore');
+  var initial = window.matchMedia('(max-width:600px)').matches ? 6 : 10;
+  gItems.forEach(function(b, i){ if (i >= initial) b.hidden = true; });
+  galMore.addEventListener('click', function(){
+    gItems.forEach(function(b){ if (b.hidden){ b.hidden = false; b.classList.add('in'); } });
+    galMore.parentNode.remove();
+  });
+
+  // lightbox
+  var lb = document.getElementById('lb'), lbImg = lb.querySelector('img'), lbCount = document.getElementById('lbCount'), cur = 0, lastFocus;
+  function show(i){
+    cur = (i + gItems.length) % gItems.length;
+    lbImg.src = gItems[cur].dataset.full; lbImg.alt = 'Fotka z akce VIBE ' + (cur + 1);
+    lbCount.textContent = (cur + 1) + ' / ' + gItems.length;
+    new Image().src = gItems[(cur + 1) % gItems.length].dataset.full;
+  }
+  function openLb(i){ lastFocus = document.activeElement; show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; document.getElementById('lbClose').focus(); }
+  function closeLb(){ lb.classList.remove('open'); document.body.style.overflow = ''; if (lastFocus) lastFocus.focus(); }
+  gItems.forEach(function(b, i){ b.addEventListener('click', function(){ openLb(i); }); });
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  document.getElementById('lbPrev').addEventListener('click', function(){ show(cur - 1); });
+  document.getElementById('lbNext').addEventListener('click', function(){ show(cur + 1); });
+  lb.addEventListener('click', function(e){ if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', function(e){
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') show(cur - 1);
+    if (e.key === 'ArrowRight') show(cur + 1);
+  });
+  var sx = null;
+  lb.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', function(e){
+    if (sx === null) return; var dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); sx = null;
+  });
+
+  // formulář spolupráce -> Netlify Forms (odeslání bez opuštění stránky)
+  var cf = document.getElementById('cform'), cs = document.getElementById('cformStatus');
+  cf.addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn = cf.querySelector('button[type=submit]'); btn.disabled = true;
+    cs.className = 'cform-status'; cs.textContent = 'Odesílám…';
+    fetch('/', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:new URLSearchParams(new FormData(cf)).toString()})
+      .then(function(r){ if (!r.ok) throw new Error(r.status);
+        cf.reset(); cs.className = 'cform-status ok'; cs.textContent = 'Děkujeme! Zprávu jsme přijali a brzy se vám ozveme.'; })
+      .catch(function(){ cs.className = 'cform-status err'; cs.innerHTML = 'Zprávu se nepodařilo odeslat. Napište nám prosím na <a href="mailto:info@vibeevents.cz">info@vibeevents.cz</a>.'; })
+      .finally(function(){ btn.disabled = false; });
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
