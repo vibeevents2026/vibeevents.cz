@@ -211,7 +211,7 @@ h1,h2{filter:drop-shadow(0 0 14px rgba(167,139,250,.55)) drop-shadow(0 0 40px rg
 .artist.has-photo .artist-top{color:#e6e3ee}
 .artist-top,.artist h3{position:relative;z-index:2}
 .artist.has-photo h3{filter:drop-shadow(0 2px 12px rgba(0,0,0,.85))}
-.artist-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+.artist-top{display:flex;justify-content:flex-end;align-items:center;color:var(--muted);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
 .artist-top svg{width:22px;height:22px;color:var(--violet)}
 .artist h3{font-size:clamp(26px,3vw,40px);font-weight:900;text-transform:uppercase;line-height:1;margin-top:34px;position:relative;z-index:1}
 .hof-note{margin-top:40px;color:var(--muted);text-align:center}
@@ -664,7 +664,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--muted);f
   document.getElementById('hof').innerHTML = artists.map(function(a, i){
     return '<article class="artist reveal' + (a.img ? ' has-photo' : '') + '" style="--d:' + (i % 3) * 0.08 + 's">' +
       (a.img ? '<img class="artist-photo" src="' + a.img + '" alt="' + a.n + '" loading="lazy">' : '') +
-      '<div class="artist-top"><span>#' + String(i + 1).padStart(2, '0') + '</span><svg><use href="#i-mic"/></svg></div>' +
+      '<div class="artist-top"><svg><use href="#i-mic"/></svg></div>' +
       '<h3 class="chrome-text">' + a.n + '</h3></article>';
   }).join('');
   document.querySelectorAll('.artist').forEach(function(el){
